@@ -1,1 +1,36 @@
 
+#股票价格追踪
+import akshare as ak
+import pandas as pd
+import matplotlib.pyplot as plt
+
+class stockPriceTracker:
+    def __init__(self, stockSymbol):
+        self.stockSymbol = stockSymbol
+        
+        
+    #Get stock data
+    def getStockData(self,period = "daily", start = "20240101", end ="20260101" , adjust="qfq"):
+        symbol = self.stockSymbol
+        stockData = ak.stock_zh_a_hist(
+            symbol= symbol,
+            period= period,
+            start_date= start,
+            end_date= end,
+            adjust= adjust     
+            )
+        return stockData
+    
+    
+    def drawGraph(self,stockData):
+        stockSymbol = stockData['股票代码'][0]
+        print(stockSymbol)
+        stockData.plot(kind = 'line', x = '日期', y = '收盘', title = f'{stockSymbol}:Price', figsize = (15,6) )
+        plt.show()
+            
+        
+
+if __name__ == '__main__':
+    spt = stockPriceTracker('00001')
+    stockPriceGraph= spt.drawGraph(spt.getStockData())
+    print(stockPriceGraph)
